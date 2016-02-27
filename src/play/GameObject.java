@@ -22,29 +22,17 @@ public abstract class GameObject {
 	public abstract void tick();
 	public abstract void render(Graphics g);
 	
-	public void setX(int x) {
+	public void setX(float x) {
 		this.x = x;
 	}
-	public void setY(int y) {
+	public void setY(float y) {
 		this.y = y;
 	}
-	public double getX() {
+	public float getX() {
 		return x;
 	}
-	public double getY() {
+	public float getY() {
 		return y;
-	}
-	public void setvelX(int velX) {
-		this.velX = velX;
-	}
-	public void setvelY(int velY) {
-		this.velY = velY;
-	}
-	public float getvelX() {
-		return velX;
-	}
-	public float getvelY() {
-		return velY;
 	}
 	public ID getID() {
 		return id;

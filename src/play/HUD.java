@@ -32,9 +32,9 @@ public class HUD {
 		
 		//bottom container
 		g.setColor(Color.blue);
-		g.drawRect(0, 530, Game.WIDTH - 8, 40);
+		g.drawRect(0, 530, Game.WIDTH - 7, 40);
 		g.setColor(Color.BLACK);
-		g.fillRect(1, 531, Game.WIDTH - 9, 39);
+		g.fillRect(1, 531, Game.WIDTH - 8, 39);
 		
 		//top container
 		g.setColor(Color.blue);
@@ -56,7 +56,7 @@ public class HUD {
 
 		g.setColor(Color.blue);
 		//weapon bar
-		g.drawRect(173, 536, 114, 28);
+		g.drawRect(174, 536, 113, 28);
 		//text score
 		g.setFont(font);
 		g.drawString("Score: " + score, 20, 25);

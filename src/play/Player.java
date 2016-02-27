@@ -2,12 +2,14 @@ package play;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import main.Game;
 import main.GameState;
+import main.KeyManager;
 import play.weapons.BasicWeapon1;
 import play.weapons.Weapon;
 
@@ -20,18 +22,33 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 	private boolean shooting;
 	private int mouseButton;
 	private Weapon weapon;
+	private KeyManager keyManager;
+	private static boolean invincible;
 	
-	public Player(int x, int y, ID id, Handler handler) {
+	private enum FightingState {
+		Melle{},
+		Ranged{}
+	}
+	private FightingState fightingState;
+	
+	public Player(int x, int y, ID id, Handler handler, KeyManager keyManager) {
 		super(x, y, id, 32, 32);
+		velX = 0;
+		velY = 0;
+		this.keyManager = keyManager;
 		weapon = new BasicWeapon1();
 		this.handler = handler;
 		maxHealth = 10;
 		health = maxHealth;
 		shooting = false;
+		fightingState = FightingState.Ranged;
+		invincible = true;
 	}
 	
 	public static void setPHealth(int hp) {
-		health = hp;
+		if (!invincible) {
+			health = hp;
+		}
 	}
 	public static int getPHealth() {
 		return health;
@@ -46,25 +63,59 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 		if (shooting) {
 			if (Game.gameState == GameState.Play) {
 				if (mouseButton == 1) {
-					weapon.leftShoot(handler, (int)this.x, (int)this.y, mx, my, WIDTH);
+					if (fightingState == FightingState.Ranged) {
+						weapon.leftShoot(handler, (int)this.x, (int)this.y, mx, my, WIDTH);
+					}
 				} else if (mouseButton == 3) {
+					
 				}
 				
 			}
 		}
+		if (fightingState == FightingState.Melle) {
+			if (keyManager.keys[KeyEvent.VK_W]) {
+				velY = -15;
+			}
+			if (keyManager.keys[KeyEvent.VK_S]) {
+				velY = 15;
+			}
+			if (keyManager.keys[KeyEvent.VK_A]) {
+				velX = -5;
+			}
+			if (keyManager.keys[KeyEvent.VK_D]) {
+				velX = 5;
+			}
+		}
+		
+		// Y movement
+		
+			
+		
+		// X movement
+		if ((this.getX() + velX >= 0) && (this.getX() + velX <= Game.WIDTH - this.WIDTH - 7)) {
+			this.setX(this.getX() + velX);
+		} else if (this.getX() + velX < 0) {
+			this.setX(0);
+		} else if (this.getX() + velX > Game.WIDTH - this.WIDTH - 7) {
+			this.setX(Game.WIDTH - this.WIDTH - 7);
+		}
+		if (velX < 0) velX = velX + 1; 
+			else if (velX > 0) velX = velX - 1;
 	}
 
 	public void render(Graphics g) {
 		g.setColor(color);
 		g.drawRect((int)x, (int)y, WIDTH, HEIGHT);
-		if (shooting) g.setColor(Color.red); else {
-			g.setColor(Color.green);
-		}
-		g.drawLine(mx - 7, my - 7, mx + 7, my + 7);
-		g.drawLine(mx - 7, my + 7, mx + 7, my - 7);
 	}
 
 	public void mouseClicked(MouseEvent e) {
+		if (e.getButton() == 3) {
+			if (fightingState == FightingState.Ranged) {
+				fightingState = FightingState.Melle;
+			} else {
+				fightingState = FightingState.Ranged;
+			}
+		}
 	}
 	public void mouseEntered(MouseEvent e) {
 	}
@@ -93,7 +144,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 	public void mouseReleased(MouseEvent e) {
 		shooting = false;
 	}
-	public void mouseDragged(MouseEvent e) {
+	public void mouseDragged(MouseEvent e) {	
 		mx = e.getX();
 		my = e.getY();
 		if (e.getX() >= 95 && e.getX() <= 190 && e.getY() >= 1 && e.getY() <= 41) {
