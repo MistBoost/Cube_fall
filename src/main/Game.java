@@ -144,29 +144,16 @@ public class Game extends Canvas implements Runnable {
 		Handler.object.clear();
 		menu = new Menu(g);
 		menuSpawner = new MenuSpawner();
-		for (int i = 0; i < menu.menuButtons.size(); i++) {
-			this.addMouseListener(menu.menuButtons.get(i));
-			this.addMouseMotionListener(menu.menuButtons.get(i));
-		}
 	}
 	
 	private void initGameoverMenu(Graphics g) {
 		Handler.object.clear();
 		gameoverMenu = new GameoverMenu(g);
 		menuSpawner = new MenuSpawner();
-		for (int i = 0; i < gameoverMenu.menuButtons.size(); i++) {
-			this.addMouseListener(gameoverMenu.menuButtons.get(i));
-			this.addMouseMotionListener(gameoverMenu.menuButtons.get(i));
-		}
 	}
 	
 	private void initPlayMenu(Graphics g) {
 		playMenu = new PlayMenu(g);
-		for (int i = 0; i < playMenu.menuButtons.size(); i++) {
-			this.addMouseListener(playMenu.menuButtons.get(i));
-			this.addMouseMotionListener(playMenu.menuButtons.get(i));
-		}
-		playMenu.addedListeners = true;
 	}
 
 	private void tick() {
@@ -181,10 +168,6 @@ public class Game extends Canvas implements Runnable {
 				hud = new HUD();
 				spawner = new Spawner();
 				Handler.object.clear();
-				for (int i = 0; i < menu.menuButtons.size(); i++) {
-					this.removeMouseListener(menu.menuButtons.get(i));
-					this.removeMouseMotionListener(menu.menuButtons.get(i));
-				}
 				handler.addObject(new Player(WIDTH / 2 - 16, HEIGHT - 103, ID.Player, handler, keyManager));
 				for (int i = 0; i < Handler.object.size(); i++) {
 					if (Handler.object.get(i).getID() == ID.Player) {
@@ -210,12 +193,6 @@ public class Game extends Canvas implements Runnable {
 		} else if (gameState == GameState.PlayMenu) {
 			if (!firstPlayMenuRun) {
 				playMenu.tick();
-				if (playMenu.canRemoveListeners) {
-					for (int i = 0; i < playMenu.menuButtons.size(); i++) {
-						this.removeMouseListener(playMenu.menuButtons.get(i));
-						this.removeMouseMotionListener(playMenu.menuButtons.get(i));
-					}
-				}
 			}
 		}
 	}

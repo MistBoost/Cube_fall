@@ -31,11 +31,10 @@ public class Bullet1 extends GameObject {
 		x += Math.cos(angle) * velX;
 		y += Math.sin(angle) * velY;
 		for (int i = 0; i < Handler.object.size(); i++) {
-			GameObject temp = Handler.object.get(i);
-			if (temp.getID() == ID.Enemy) {
-				if ((x >= temp.getX()) && x <= (temp.getX() + temp.getWidth())) {
-					if ((y >= temp.getY()) && y <= (temp.getY() + temp.getHeight())) {
-						temp.takeDamage(1);
+			if (Handler.object.get(i).getID() == ID.Enemy) {
+				if ((x >= Handler.object.get(i).getX()) && x <= (Handler.object.get(i).getX() + Handler.object.get(i).getWidth())) {
+					if ((y >= Handler.object.get(i).getY()) && y <= (Handler.object.get(i).getY() + Handler.object.get(i).getHeight())) {
+						Handler.object.get(i).takeDamage(1);
 						handler.removeObject(this);
 					}
 				}

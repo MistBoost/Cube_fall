@@ -11,16 +11,14 @@ public class Handler {
 	
 	public void tick() {
 		for (int i = 0; i < object.size(); i++) {
-			GameObject temp = object.get(i);
-			if ((temp.y > Game.HEIGHT - 30) || (temp.y < -30) || (temp.x < 0) || (temp.x > Game.WIDTH)) removeObject(temp);
-			temp.tick();
+			if ((object.get(i).y > Game.HEIGHT - 30) || (object.get(i).y < -30) || (object.get(i).x < 0) || (object.get(i).x > Game.WIDTH)) removeObject(object.get(i));
+			object.get(i).tick();
 		}
 	}
 	
 	public void render(Graphics g) {
 		for (int i = 0; i < object.size(); i++) {
-			GameObject temp = object.get(i);
-			temp.render(g);
+			object.get(i).render(g);
 		}
 	}
 	

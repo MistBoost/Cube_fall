@@ -9,12 +9,9 @@ import main.GameState;
 
 public class PlayMenu {
 	
-	public boolean addedListeners, canRemoveListeners;
 	public LinkedList<MenuButton> menuButtons;
 
 	public PlayMenu(Graphics g) {
-		addedListeners = false;
-		canRemoveListeners = false;
 		menuButtons = new LinkedList<MenuButton>();
 		menuButtons.add(new MenuButton("Back", Color.green, g));
 		menuButtons.add(new MenuButton("Exit", Color.red, g));
@@ -33,7 +30,6 @@ public class PlayMenu {
 		if (menuButtons.get(1).getClicked()) {
 			Game.gameState = GameState.Menu;
 			Game.firstMenuRun = true;
-			canRemoveListeners = true;
 		}
 	}
 	

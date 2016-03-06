@@ -13,8 +13,8 @@ import java.awt.image.MemoryImageSource;
 
 public class Mouse implements MouseListener, MouseMotionListener {
 	
-	private static int mx,my;
-	private static boolean leftButton, rightButton;
+	public static int mx,my;
+	public static boolean leftButton, rightButton;
 	
 	public Mouse(Window window) {
 		leftButton = false;

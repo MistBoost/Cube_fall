@@ -1,13 +1,18 @@
 package menu;
 
+import java.util.Random;
+
 import play.Handler;
 
 public class MenuSpawner {
 	
 	private long start, now, spawnrate, temp;
-	private boolean running = false;
+	private boolean running;
+	private Random r;
+	private int ranInt;
 	
 	public MenuSpawner() {
+		r = new Random();
 		start();
 	}
 	
@@ -26,7 +31,13 @@ public class MenuSpawner {
 			now = System.currentTimeMillis();
 			spawnrate = (now - start) / 100;
 			if (spawnrate != temp) {
-				handler.addObject(new MenuCube());
+				ranInt = r.nextInt(2);
+				if (ranInt > 0) {
+					handler.addObject(new MenuCube());
+				} else {
+					handler.addObject(new MenuCircle());
+				}
+				
 			}
 			temp = spawnrate;
 		}

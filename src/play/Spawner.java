@@ -5,6 +5,7 @@ import java.util.Random;
 import main.Timer;
 import play.enemies.CubeLvl1;
 import play.enemies.CubeLvl2;
+import play.enemies.CubeLvl3;
 
 public class Spawner {
 	private long spawnrate;
@@ -14,7 +15,7 @@ public class Spawner {
 	
 	public Spawner() {
 		r = new Random();
-		spawnrate = 1000;
+		spawnrate = 800;
 		timer = new Timer();
 		start();
 	}
@@ -32,8 +33,11 @@ public class Spawner {
 		timer.tick();
 		if (!timer.isActive() && running) {
 			timer.start(spawnrate);
-			if (r.nextInt(4) == 3) {
+			int random = r.nextInt(6);
+			if (random > 4) {
 				handler.addObject(new CubeLvl2());
+			} else if (random == 4){
+				handler.addObject(new CubeLvl3());
 			} else {
 				handler.addObject(new CubeLvl1());
 			}

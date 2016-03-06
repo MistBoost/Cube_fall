@@ -20,7 +20,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 	private Handler handler;
 	private Color color;
 	private boolean shooting;
-	private int mouseButton;
+	private int mouseButton, gravity, jumps;
 	private Weapon weapon;
 	private KeyManager keyManager;
 	private static boolean invincible;
@@ -38,11 +38,13 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 		this.keyManager = keyManager;
 		weapon = new BasicWeapon1();
 		this.handler = handler;
-		maxHealth = 10;
+		maxHealth = 15;
 		health = maxHealth;
 		shooting = false;
 		fightingState = FightingState.Ranged;
-		invincible = true;
+		invincible = false;
+		gravity = 8;
+		jumps = 2;
 	}
 	
 	public static void setPHealth(int hp) {
@@ -73,8 +75,11 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 			}
 		}
 		if (fightingState == FightingState.Melle) {
-			if (keyManager.keys[KeyEvent.VK_W]) {
-				velY = -15;
+			if (jumps > 0) {
+				if (keyManager.keys[KeyEvent.VK_W]) {
+					velY = -20;
+				}
+				jumps -= 1;
 			}
 			if (keyManager.keys[KeyEvent.VK_S]) {
 				velY = 15;
@@ -88,8 +93,18 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 		}
 		
 		// Y movement
+		if (this.getY() + velY + gravity <= Game.HEIGHT - 103) {
+			this.setY(this.getY() + velY + gravity);
+		} else if (this.getY() + velY + gravity > Game.HEIGHT - 103) {
+			this.setY(Game.HEIGHT - 103);
+			jumps = 2;
+		}
+		if (velY > 0) {
+			velY -= 1;
+		} else if (velY < 0) {
+			velY += 1;
+		}
 		
-			
 		
 		// X movement
 		if ((this.getX() + velX >= 0) && (this.getX() + velX <= Game.WIDTH - this.WIDTH - 7)) {
@@ -144,7 +159,7 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 	public void mouseReleased(MouseEvent e) {
 		shooting = false;
 	}
-	public void mouseDragged(MouseEvent e) {	
+	public void mouseDragged(MouseEvent e) {
 		mx = e.getX();
 		my = e.getY();
 		if (e.getX() >= 95 && e.getX() <= 190 && e.getY() >= 1 && e.getY() <= 41) {
@@ -152,8 +167,6 @@ public class Player extends GameObject implements MouseListener, MouseMotionList
 		} else HUD.menuHovered = false;
 	}
 	public void mouseMoved(MouseEvent e) {
-		mx = e.getX();
-		my = e.getY();
 		if (e.getX() >= 95 && e.getX() <= 190 && e.getY() >= 1 && e.getY() <= 41) {
 			HUD.menuHovered = true;
 		} else HUD.menuHovered = false;
