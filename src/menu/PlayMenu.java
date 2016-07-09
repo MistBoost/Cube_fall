@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import main.Game;
 import main.GameState;
+import main.Mouse;
 
 public class PlayMenu {
 	
@@ -30,6 +31,7 @@ public class PlayMenu {
 		if (menuButtons.get(1).getClicked()) {
 			Game.gameState = GameState.Menu;
 			Game.firstMenuRun = true;
+			Mouse.leftButton = false;
 		}
 	}
 	
